@@ -18,7 +18,7 @@ footer {
 }
 
 header {
-  background-color: rgb(233, 193, 252);
+  background-color: pink;
   color: white;
   text-align: center;
   padding: 2rem;
@@ -38,6 +38,11 @@ tr {
 }
 
 tr:nth-of-type(odd) {
+  background-color: #ccc;
+}
+
+tr:nth-of-type(even) {
+  background-color: #eee;
 }
 
 th,

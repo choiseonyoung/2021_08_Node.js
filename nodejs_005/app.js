@@ -7,6 +7,8 @@ var app = express();
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+const bbsRouter = require("./routes/bbsRouter");
+
 const sequelize = require("./models/index").sequelize.sync();
 // .sequelize.sync() : tbl_bbs.js 등에 설정된 정보를 기준으로 table이 없으면 table을 자동으로 생성해준다
 
@@ -22,6 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/bbs", bbsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

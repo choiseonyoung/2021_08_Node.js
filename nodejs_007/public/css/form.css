@@ -18,3 +18,7 @@ form label {
 form input {
   width: 60%;
 }
+
+div.text_box {
+  display: flex;
+}

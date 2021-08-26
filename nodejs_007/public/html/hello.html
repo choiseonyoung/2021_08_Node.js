@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <style>
+      div.pa {
+        border: 1px solid pink;
+        padding: 10px;
+        margin: 5px;
+      }
+      div.pa div {
+        border: 1px solid gray;
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelector("#ga").addEventListener("click", () => {});
+      });
+      // document.querySelector("document")
+      $(document).ready(function () {
+        // JQuery 문법이 적용되는 영역
+      });
+
+      // 최신 JQuery 시작점
+      $(function () {
+        // 현재 돔화면이 다 그려졌으면
+        $("#ga").on("click", function () {
+          // 아이디가 ga라고 돼있는 거에 클릭이벤트 설정하겠다
+          alert(this.text); // 클릭된 자기자신이 가지고 있는 text를 alert (this라는 키워드 쓰려면 화살표함수 쓰면 안됨)
+        });
+        $("#na").on("click", (e) => {
+          // 화살표를 쓰면 this가 돔 전체가 됨
+          alert($(this).text);
+        });
+        $("#da").on("click", function () {
+          $(this).fadeOut();
+        });
+      });
+
+      $(() => {
+        // JQuery 코드가 작동되는 영역
+      });
+    </script>
+  </head>
+  <body>
+    <h1>반갑습니다</h1>
+    <div class="pa">
+      <div id="ga">가</div>
+    </div>
+    <div class="pa">
+      <div id="na">나</div>
+    </div>
+    <div class="pa">
+      <div id="da">다</div>
+    </div>
+  </body>
+</html>

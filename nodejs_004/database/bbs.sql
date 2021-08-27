@@ -11,3 +11,10 @@ DESC tbl_bbs;
 DROP TABLE tbl_bbs;
 
 SELECT*FROM tbl_bbs;
+
+DESC tbl_replies;
+
+DROP TABLE tbl_bbs;
+DROP TABLE tbl_replies;
+
+SELECT * FROM tbl_replies;

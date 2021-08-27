@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .order_box {
+        margin: auto;
+      }
+      .order_top {
+        width: 100%;
+        height: 50px;
+        margin: 30px auto;
+        background-color: pink;
+        text-align: center;
+        line-height: 50px;
+      }
+      .order_bottom {
+        display: flex;
+        justify-content: center;
+      }
+      .tbl_order {
+        width: 40%;
+        max-height: 70vh;
+        border-collapse: collapse;
+        border: 1px solid black;
+      }
+      .tbl_order th,
+      .tbl_order td {
+        border-bottom: 1px solid gray;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="order_box">
+      <div class="order_top"><%- tnum %> 번 테이블</div>
+      <div class="order_bottom">
+        <table class="tbl_order">
+          <tr>
+            <th>품목</th>
+            <th>단가</th>
+            <th>수량</th>
+            <th>금액</th>
+          </tr>
+          <% if(ORDER != null) { ORDER.forEach((vo,index)=>{ %>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <% })} %>
+        </table>
+        <div class="prod_box"></div>
+      </div>
+    </div>
+  </body>
+</html>

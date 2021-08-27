@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>매장</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      .tb_box {
+        width: 1200px;
+        margin: auto;
+        border: 1px solid pink;
+      }
+      .tb_top,
+      .tb_bottom {
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        border: 1px solid gray;
+      }
+      .tb {
+        width: 200px;
+        height: 150px;
+        background-color: rgb(180, 219, 235);
+        margin: 100px;
+        text-align: center;
+        font-size: 30px;
+        line-height: 150px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tb_box">
+      <section class="tb_top">
+        <div class="tb">01</div>
+        <div class="tb">02</div>
+        <div class="tb">03</div>
+      </section>
+      <section class="tb_bottom">
+        <div class="tb">04</div>
+        <div class="tb">05</div>
+        <div class="tb">06</div>
+      </section>
+    </div>
+  </body>
+  <script>
+    document.querySelector(".tb_box").addEventListener("click", (e) => {
+      if (e.target.className === "tb") {
+        let tnum = e.target.innerText;
+        location.href = "/list/" + tnum;
+      }
+    });
+  </script>
+</html>

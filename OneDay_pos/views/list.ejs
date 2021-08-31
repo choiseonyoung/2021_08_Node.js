@@ -6,14 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
+      @font-face {
+        font-family: "EliceDigitalBaeum_Bold";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+      * {
+        font-family: "EliceDigitalBaeum_Bold";
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       .order_box {
         margin: auto;
       }
       .order_top {
+        font-size: 30px;
         width: 100%;
         height: 50px;
         margin: 30px auto;
-        background-color: pink;
+        background-color: rgb(176, 223, 250);
         text-align: center;
         line-height: 50px;
       }
@@ -21,16 +35,60 @@
         display: flex;
         justify-content: center;
       }
+      .tbl_order_box {
+        width: 50%;
+        height: 600px;
+        text-align: center;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
       .tbl_order {
-        width: 40%;
-        max-height: 70vh;
+        width: 95%;
+        margin: 20px;
         border-collapse: collapse;
         border: 1px solid black;
+        text-align: center;
+        white-space: nowrap;
       }
       .tbl_order th,
       .tbl_order td {
         border-bottom: 1px solid gray;
         padding: 10px;
+      }
+      .tbl_order th {
+        background-color: rgb(218, 237, 245);
+        font-size: 20px;
+      }
+      .tbl_order tr:last-of-type {
+        background-color: rgb(218, 237, 245);
+        font-size: 20px;
+      }
+      .btn_pay {
+        font-size: 25px;
+        width: 95%;
+        height: 50px;
+        border: 0;
+        border-radius: 10px;
+        background-color: lavender;
+        margin: auto;
+      }
+      .menu_box {
+        width: 50%;
+        height: 250px;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 20px;
+      }
+      .menu {
+        font-size: 25px;
+        width: 120px;
+        height: 80px;
+        margin: 20px;
+        border-radius: 20px;
+        background-color: rgb(232, 233, 232);
+        text-align: center;
+        line-height: 80px;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -38,24 +96,63 @@
     <div class="order_box">
       <div class="order_top"><%- tnum %> 번 테이블</div>
       <div class="order_bottom">
-        <table class="tbl_order">
-          <tr>
-            <th>품목</th>
-            <th>단가</th>
-            <th>수량</th>
-            <th>금액</th>
-          </tr>
-          <% if(ORDER != null) { ORDER.forEach((vo,index)=>{ %>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <% })} %>
-        </table>
-        <div class="prod_box"></div>
+        <div class="tbl_order_box">
+          <table class="tbl_order">
+            <tr>
+              <th>품목</th>
+              <th>단가</th>
+              <th>수량</th>
+              <th>금액</th>
+            </tr>
+            <% ORDER.forEach((vo,index)=>{ %>
+            <tr>
+              <td><%- vo.o_pcode %></td>
+              <td><%- vo.o_price %></td>
+              <td><%- vo.o_count %></td>
+              <td><%- vo.o_total %></td>
+            </tr>
+            <% }) %>
+            <tr>
+              <td>합계</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+          <button class="btn_pay">결제하기</button>
+        </div>
+        <div class="menu_box">
+          <% PROD.forEach((vo,index)=>{ %>
+          <div
+            class="menu"
+            data-pcode="<%- vo.p_code %>"
+            data-pprice="<%-vo.p_price %>"
+          >
+            <%- vo.p_name %>
+          </div>
+
+          <% }) %>
+        </div>
       </div>
     </div>
   </body>
+  <script>
+    document.querySelector(".menu_box").addEventListener("click", (e) => {
+      fetch("/list/<%- tnum %>", {
+        method: "POST",
+        redirect: "follow",
+        headers: { "content-Type": "application/json" },
+        body: JSON.stringify({
+          o_date: "<%- o_date %>",
+          o_table: "<%- tnum %>",
+          o_pcode: e.target.dataset.pcode,
+          o_price: e.target.dataset.pprice,
+          o_count: 1,
+          o_total: e.target.dataset.pprice,
+          o_buyer: "hi",
+          o_pay: false,
+        }),
+      }).then((result) => {});
+    });
+  </script>
 </html>

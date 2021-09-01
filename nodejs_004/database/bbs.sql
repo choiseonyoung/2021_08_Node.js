@@ -39,3 +39,6 @@ VALUES
 
 SELECT * FROM tbl_products;
 SELECT * FROM tbl_table_orders;
+
+DROP TABLE tbl_table_orders;
+DROP TABLE tbl_products;

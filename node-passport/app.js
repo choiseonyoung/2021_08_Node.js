@@ -16,11 +16,21 @@ import logger from "morgan";
 
 import session from "express-session";
 import passport from "passport";
-import passportConfig from "./modules/passport.js";
+import passportConfig from "./modules/PassportConfig.js";
 
 import indexRouter from "./routes/index.js";
 import usersRouter from "./routes/users.js";
 import cors from "cors";
+import mongoose from "mongoose";
+
+const dbConn = mongoose.connection;
+dbConn.once("open", () => {
+  console.log("mongoDB OK!!");
+});
+dbConn.on("error", () => {
+  console.err;
+});
+mongoose.connect("mongodb://localhost:27017/users");
 
 const app = express();
 
@@ -30,6 +40,7 @@ const corsOption = {
     const isWhiteURL = whiteURL.indexOf(origin) !== -1;
     callback(null, isWhiteURL);
   },
+  credentials: true,
 };
 
 // Disable the fingerprinting of this web technology. 경고
@@ -45,16 +56,31 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join("./public")));
 
+// 하루동안 유지하도록 값을 설정. 밀리초 * 60초 * 60분 * 24시간
+const oneDay = 1000 * 60 * 60 * 24;
 // 세션 활성화
-app.use(session({ secret: "aa1234", resave: true, saveUninitailized: false }));
+app.use(
+  session({
+    secret: "aa1234",
+    resave: false,
+    saveUninitailized: true,
+    cookie: { secure: false, httpOnly: false, maxAge: oneDay }, // maxAge: oneDay - 하루만 로그인을 유지해라
+  })
+);
 app.use(passport.initialize()); // passport start
 app.use(passport.session());
+passportConfig();
+
+// response를 할 때 session 담긴 값을 클라이언트로 전송하기 위한 옵션 설정하기
+app.use((req, res, next) => {
+  res.header("Access-Controll-Allow-Origin", "http://localhost:3000");
+  next();
+});
 
 app.use(cors(corsOption));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-passportConfig();
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

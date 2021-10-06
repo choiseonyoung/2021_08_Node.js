@@ -1,5 +1,6 @@
 import passport from "passport";
 import passportLocal from "passport-local";
+import User from "../models/User.js";
 
 // local login 정책을 수행하는 모듈
 const LocalStratege = passportLocal.Strategy;
@@ -12,7 +13,7 @@ const exportPassport = () => {
   });
   // 로그인이 정상적으로 수행된 후 client에서 세션이 유효한지 문의가 들어왔을 때 실행되는 함수
   passport.deserializeUser((user, done) => {
-    console.log("DES", user);
+    console.log("DESC", user);
     done(null, user);
   });
 
@@ -32,7 +33,21 @@ const exportPassport = () => {
          * router에서 req.user 객체가 생성되고
          * 로그인한 정보를 추출할 수 있다
          */
-        return done(null, { userid: "root", password: "12345" });
+        User.findOne({ userid: userid, password: password }, (err, data) => {
+          if (err) {
+            return done(err);
+          }
+          if (!data) {
+            return done(null, false, { message: "존재하지 않는 ID입니다" });
+          }
+          if (data.password != password) {
+            return done(null, false, {
+              message: "비밀번호가 일치하지 않습니다",
+            });
+          }
+          return done(null, data);
+        });
+        // return done(null, { userid: "root", password: "12345" });
       }
     )
   );
